@@ -5,7 +5,7 @@ variable "aws_region" {
 
 variable "az_region" {
   type    = string
-  default = "Central US"
+  default = "centralus"
 }
 
 variable "az_resource_group" {
