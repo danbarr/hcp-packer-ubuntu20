@@ -34,6 +34,7 @@ source "amazon-ebs" "base" {
   instance_type = "t3.small"
   ssh_username  = "ubuntu"
   ami_name      = local.image_name
+  ami_regions   = var.aws_region_copies
 
   tags = {
     owner           = var.owner

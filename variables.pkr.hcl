@@ -3,6 +3,11 @@ variable "aws_region" {
   default = "eu-west-1"
 }
 
+variable "aws_region_copies" {
+  type    = list(string)
+  default = ["eu-central-1"]
+}
+
 variable "az_region" {
   type    = string
   default = "centralus"
