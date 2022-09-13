@@ -51,7 +51,6 @@ source "azure-arm" "base" {
   image_offer     = "0001-com-ubuntu-server-focal"
   image_sku       = "20_04-lts"
 
-  #location                          = var.az_region
   build_resource_group_name         = var.az_resource_group
   vm_size                           = "Standard_A2_v2"
   managed_image_name                = local.image_name
@@ -67,9 +66,7 @@ source "azure-arm" "base" {
 build {
   hcp_packer_registry {
     bucket_name = "ubuntu-focal"
-    description = <<EOT
-    Ubuntu 20.04 (focal) base images.
-    EOT
+    description = "Ubuntu 20.04 (focal) base images."
     bucket_labels = {
       "owner"          = var.owner
       "dept"           = var.department
