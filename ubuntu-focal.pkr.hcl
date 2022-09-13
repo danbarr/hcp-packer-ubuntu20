@@ -91,4 +91,11 @@ build {
     script          = "./update.sh"
     execute_command = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
   }
+
+  provisioner "shell" {
+    inline = [
+      "sudo ufw enable",
+      "sudo ufw allow 22"
+    ]
+  }
 }
