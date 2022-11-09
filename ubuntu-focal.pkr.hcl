@@ -66,7 +66,7 @@ source "azure-arm" "base" {
 build {
   hcp_packer_registry {
     bucket_name = "ubuntu-focal"
-    description = "Ubuntu 20.04 (focal) base images."
+    description = "Ubuntu 20.04 (focal) base image."
     bucket_labels = {
       "owner"          = var.owner
       "dept"           = var.department
@@ -83,6 +83,7 @@ build {
     "source.azure-arm.base"
   ]
 
+  # Make sure cloud-init has finished
   provisioner "shell" {
     inline = ["/usr/bin/cloud-init status --wait"]
   }
