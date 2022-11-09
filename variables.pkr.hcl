@@ -5,7 +5,7 @@ variable "aws_region" {
 
 variable "aws_region_copies" {
   type    = list(string)
-  default = ["eu-central-1"]
+  default = ["eu-central-1", "eu-north-1"]
 }
 
 variable "az_region" {
@@ -20,7 +20,7 @@ variable "az_resource_group" {
 
 variable "department" {
   type    = string
-  default = "PMM"
+  default = "TPMM"
 }
 
 variable "owner" {
