@@ -1,0 +1,9 @@
+aws_region         = "us-east-1"
+aws_region_copies  = ["us-east-2", "us-west-2"]
+az_region          = "centralus"
+az_resource_group  = "demo-packer"
+department         = "Platform Team"
+owner              = "demouser"
+prefix             = "demo"
+base_image_bucket  = "ubuntu-focal"
+base_image_channel = "development"

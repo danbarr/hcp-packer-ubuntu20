@@ -89,7 +89,7 @@ build {
   }
 
   provisioner "shell" {
-    script          = "./update.sh"
+    script          = "${path.root}/update.sh"
     execute_command = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
   }
 
