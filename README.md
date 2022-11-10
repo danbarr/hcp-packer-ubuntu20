@@ -66,13 +66,13 @@ resource "aws_instance" "my_ec2" {
 **Azure:**
 
 ```hcl
-resource "azure_linux_vm" "my_vm" {
+resource "azurerm_linux_virtual_machine" "my_vm" {
   # ... resource config ...
 
   lifecycle {
     postcondition {
       condition     = self.source_image_id == data.hcp_packer_image.ubuntu-focal-webserver.cloud_image_id
-      error_message = "A new source AMI is available in the HCP Packer channel."
+      error_message = "A new source image is available in the HCP Packer channel."
     }    
   }
 }
