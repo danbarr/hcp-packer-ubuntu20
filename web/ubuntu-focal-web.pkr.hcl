@@ -97,16 +97,16 @@ build {
 
   # Make sure cloud-init has finished
   provisioner "shell" {
-    inline = ["/usr/bin/cloud-init status --wait"]
+    inline = ["echo 'Wait for cloud-init...' && /usr/bin/cloud-init status --wait"]
   }
 
   provisioner "shell" {
     environment_vars = ["DEBIAN_FRONTEND=noninteractive"]
     inline = [
       "echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections",
-      "sudo apt-get -qy update",
-      "sudo apt-get -qy -o \"Dpkg::Options::=--force-confdef\" -o \"Dpkg::Options::=--force-confold\" install nginx",
-      "sudo ufw allow http"
+      "echo 'Installing nginx...' && sudo apt-get -qq -y update >/dev/null",
+      "sudo apt-get -qq -y -o \"Dpkg::Options::=--force-confdef\" -o \"Dpkg::Options::=--force-confold\" install nginx >/dev/null",
+      "echo 'Adding firewall rule...' && sudo ufw allow http >/dev/null"
     ]
   }
 }

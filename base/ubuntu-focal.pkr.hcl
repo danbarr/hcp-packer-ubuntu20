@@ -91,7 +91,7 @@ build {
 
   # Make sure cloud-init has finished
   provisioner "shell" {
-    inline = ["/usr/bin/cloud-init status --wait"]
+    inline = ["echo 'Wait for cloud-init...' && /usr/bin/cloud-init status --wait"]
   }
 
   provisioner "shell" {
@@ -101,8 +101,8 @@ build {
 
   provisioner "shell" {
     inline = [
-      "sudo ufw enable",
-      "sudo ufw allow 22"
+      "sudo ufw enable >/dev/null",
+      "sudo ufw allow 22 >/dev/null"
     ]
   }
 }
