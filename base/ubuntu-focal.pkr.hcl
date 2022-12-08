@@ -38,7 +38,7 @@ source "amazon-ebs" "base" {
 
   tags = {
     owner           = var.owner
-    dept            = var.department
+    department      = var.department
     source_ami_id   = data.amazon-ami.ubuntu-focal.id
     source_ami_name = data.amazon-ami.ubuntu-focal.name
     Name            = local.image_name
@@ -46,26 +46,32 @@ source "amazon-ebs" "base" {
 }
 
 source "azure-arm" "base" {
-  os_type         = "Linux"
+  os_type                   = "Linux"
+  build_resource_group_name = var.az_resource_group
+  vm_size                   = "Standard_B2s"
+
+  # Source image
   image_publisher = "Canonical"
   image_offer     = "0001-com-ubuntu-server-focal"
-  image_sku       = "20_04-lts"
+  image_sku       = "20_04-lts-gen2"
+  image_version   = "latest"
 
-  build_resource_group_name         = var.az_resource_group
-  vm_size                           = "Standard_A2_v2"
+  # Destination image
   managed_image_name                = local.image_name
   managed_image_resource_group_name = var.az_resource_group
 
   azure_tags = {
-    owner = var.owner
-    dept  = var.department
+    owner      = var.owner
+    department = var.department
+    build-time = local.timestamp
   }
+
   use_azure_cli_auth = true
 }
 
 build {
   hcp_packer_registry {
-    bucket_name = "ubuntu-focal"
+    bucket_name = "ubuntu20-base"
     description = "Ubuntu 20.04 (focal) base image."
     bucket_labels = {
       "owner"          = var.owner
@@ -85,7 +91,7 @@ build {
 
   # Make sure cloud-init has finished
   provisioner "shell" {
-    inline = ["/usr/bin/cloud-init status --wait"]
+    inline = ["echo 'Wait for cloud-init...' && /usr/bin/cloud-init status --wait"]
   }
 
   provisioner "shell" {
@@ -95,8 +101,8 @@ build {
 
   provisioner "shell" {
     inline = [
-      "sudo ufw enable",
-      "sudo ufw allow 22"
+      "sudo ufw enable >/dev/null",
+      "sudo ufw allow 22 >/dev/null"
     ]
   }
 }

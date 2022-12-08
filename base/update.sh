@@ -2,6 +2,7 @@
 
 export DEBIAN_FRONTEND=noninteractive
 echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-apt-get -qy update && 
-    apt-get -qy -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" dist-upgrade &&
-    apt-get -qy clean
+echo "Updating packages..."
+apt-get -qq -y update >/dev/null && 
+    apt-get -qq -y -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" dist-upgrade >/dev/null &&
+    apt-get -qq -y clean >/dev/null 

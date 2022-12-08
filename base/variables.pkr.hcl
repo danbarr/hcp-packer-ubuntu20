@@ -1,30 +1,37 @@
 variable "aws_region" {
-  type = string
+  description = "The AWS region where the image will be built."
+  type        = string
 }
 
 variable "aws_region_copies" {
-  type    = list(string)
-  default = []
+  description = "Additional regions where AMI copies will be made."
+  type        = list(string)
+  default     = []
 }
 
 variable "az_region" {
-  type = string
+  description = "The Azure region where the Resource Group exists."
+  type        = string
 }
 
 variable "az_resource_group" {
-  type = string
+  description = "An existing Azure Resource Group where the build will take place and images will be stored."
+  type        = string
 }
 
 variable "department" {
-  type = string
+  description = "Value for the department tag."
+  type        = string
 }
 
 variable "owner" {
-  type = string
+  description = "Value for the owner tag."
+  type        = string
 }
 
 variable "prefix" {
-  type = string
+  description = "This prefix will be included in the name of most resources."
+  type        = string
 }
 
 variable "base_image_bucket" {
