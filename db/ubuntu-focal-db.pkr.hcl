@@ -71,7 +71,7 @@ source "azure-arm" "base" {
 
 build {
   hcp_packer_registry {
-    bucket_name = "ubuntu-focal-db"
+    bucket_name = "ubuntu20-mariadb"
     description = "Ubuntu 20.04 (focal) MariaDB database server image."
     bucket_labels = {
       "owner"          = var.owner

@@ -37,7 +37,7 @@ variable "prefix" {
 variable "base_image_bucket" {
   description = "HCP Packer bucket name of the parent image."
   type        = string
-  default = "ubuntu-focal"
+  default     = "ubuntu20-base"
 }
 
 variable "base_image_channel" {

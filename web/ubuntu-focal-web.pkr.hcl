@@ -71,14 +71,14 @@ source "azure-arm" "base" {
 
 build {
   hcp_packer_registry {
-    bucket_name = "ubuntu-focal-webserver"
+    bucket_name = "ubuntu20-nginx"
     description = "Ubuntu 20.04 (focal) nginx web server image."
     bucket_labels = {
       "owner"          = var.owner
       "dept"           = var.department
       "os"             = "Ubuntu",
       "ubuntu-version" = "20.04",
-      "app"            = "webserver",
+      "app"            = "nginx",
     }
     build_labels = {
       "build-time" = local.timestamp

@@ -35,15 +35,15 @@ Use the "Use as data source" code generator in the HCP Packer UI to generate a T
 Example:
 
 ```hcl
-data "hcp_packer_image" "ubuntu-focal-webserver" {
-  bucket_name     = "ubuntu-focal-webserver"
+data "hcp_packer_image" "ubuntu20-nginx" {
+  bucket_name     = "ubuntu20-nginx"
   channel         = "production"
   cloud_provider  = "aws"
   region          = "us-east-1"
 }
 
 # Then replace your existing references with
-# data.hcp_packer_image.ubuntu-focal-webserver.cloud_image_id
+# data.hcp_packer_image.ubuntu20-nginx.cloud_image_id
 ```
 
 To integrate with **Terraform Cloud continuous validation**, add a lifecycle postcondition block to your instance/VM resource:
@@ -56,7 +56,7 @@ resource "aws_instance" "my_ec2" {
 
   lifecycle {
     postcondition {
-      condition     = self.ami == data.hcp_packer_image.ubuntu-focal-webserver.cloud_image_id
+      condition     = self.ami == data.hcp_packer_image.ubuntu20-nginx.cloud_image_id
       error_message = "A new source AMI is available in the HCP Packer channel."
     }    
   }
@@ -71,7 +71,7 @@ resource "azurerm_linux_virtual_machine" "my_vm" {
 
   lifecycle {
     postcondition {
-      condition     = self.source_image_id == data.hcp_packer_image.ubuntu-focal-webserver.cloud_image_id
+      condition     = self.source_image_id == data.hcp_packer_image.ubuntu20-nginx.cloud_image_id
       error_message = "A new source image is available in the HCP Packer channel."
     }    
   }

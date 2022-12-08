@@ -65,7 +65,7 @@ source "azure-arm" "base" {
 
 build {
   hcp_packer_registry {
-    bucket_name = "ubuntu-focal"
+    bucket_name = "ubuntu20-base"
     description = "Ubuntu 20.04 (focal) base image."
     bucket_labels = {
       "owner"          = var.owner
