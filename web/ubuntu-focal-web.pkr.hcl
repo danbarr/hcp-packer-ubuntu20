@@ -53,9 +53,9 @@ source "amazon-ebs" "base" {
 }
 
 source "azure-arm" "base" {
-  os_type                                  = "Linux"
-  build_resource_group_name         = var.az_resource_group
-  vm_size                           = "Standard_B2s"
+  os_type                   = "Linux"
+  build_resource_group_name = var.az_resource_group
+  vm_size                   = "Standard_B2s"
 
   # Source image
   custom_managed_image_name                = data.hcp-packer-image.ubuntu20-base-azure.labels.managed_image_name
