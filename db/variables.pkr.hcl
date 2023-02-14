@@ -43,4 +43,5 @@ variable "base_image_bucket" {
 variable "base_image_channel" {
   description = "HCP Packer channel of the parent image."
   type        = string
+  default     = "latest"
 }
