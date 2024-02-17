@@ -1,12 +1,12 @@
 packer {
-  required_version = ">= 1.7.7"
+  required_version = ">= 1.10.1"
   required_plugins {
     amazon = {
-      version = "~>1.0"
+      version = "~>1.3"
       source  = "github.com/hashicorp/amazon"
     }
     azure = {
-      version = "~>1.0"
+      version = "~>2.0"
       source  = "github.com/hashicorp/azure"
     }
   }
