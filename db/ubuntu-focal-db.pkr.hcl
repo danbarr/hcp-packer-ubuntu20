@@ -12,23 +12,23 @@ packer {
   }
 }
 
-data "hcp-packer-iteration" "ubuntu20-base" {
-  bucket_name = var.base_image_bucket
-  channel     = var.base_image_channel
+data "hcp-packer-version" "ubuntu20-base" {
+  bucket_name  = var.base_image_bucket
+  channel_name = var.base_image_channel
 }
 
-data "hcp-packer-image" "ubuntu20-base-aws" {
-  bucket_name    = data.hcp-packer-iteration.ubuntu20-base.bucket_name
-  iteration_id   = data.hcp-packer-iteration.ubuntu20-base.id
-  cloud_provider = "aws"
-  region         = var.aws_region
+data "hcp-packer-artifact" "ubuntu20-base-aws" {
+  bucket_name         = data.hcp-packer-version.ubuntu20-base.bucket_name
+  version_fingerprint = data.hcp-packer-version.ubuntu20-base.fingerprint
+  platform            = "aws"
+  region              = var.aws_region
 }
 
-data "hcp-packer-image" "ubuntu20-base-azure" {
-  bucket_name    = data.hcp-packer-iteration.ubuntu20-base.bucket_name
-  iteration_id   = data.hcp-packer-iteration.ubuntu20-base.id
-  cloud_provider = "azure"
-  region         = var.az_region
+data "hcp-packer-artifact" "ubuntu20-base-azure" {
+  bucket_name         = data.hcp-packer-version.ubuntu20-base.bucket_name
+  version_fingerprint = data.hcp-packer-version.ubuntu20-base.fingerprint
+  platform            = "azure"
+  region              = var.az_region
 }
 
 locals {
@@ -38,7 +38,7 @@ locals {
 
 source "amazon-ebs" "base" {
   region        = var.aws_region
-  source_ami    = data.hcp-packer-image.ubuntu20-base-aws.id
+  source_ami    = data.hcp-packer-artifact.ubuntu20-base-aws.external_identifier
   instance_type = "t3.small"
   ssh_username  = "ubuntu"
   ami_name      = local.image_name
@@ -47,7 +47,7 @@ source "amazon-ebs" "base" {
   tags = {
     owner         = var.owner
     department    = var.department
-    source_ami_id = data.hcp-packer-image.ubuntu20-base-aws.id
+    source_ami_id = data.hcp-packer-artifact.ubuntu20-base-aws.external_identifier
     Name          = local.image_name
   }
 }
@@ -58,8 +58,8 @@ source "azure-arm" "base" {
   vm_size                   = "Standard_B2s"
 
   # Source image
-  custom_managed_image_name                = data.hcp-packer-image.ubuntu20-base-azure.labels.managed_image_name
-  custom_managed_image_resource_group_name = data.hcp-packer-image.ubuntu20-base-azure.labels.managed_image_resourcegroup_name
+  custom_managed_image_name                = data.hcp-packer-artifact.ubuntu20-base-azure.labels.managed_image_name
+  custom_managed_image_resource_group_name = data.hcp-packer-artifact.ubuntu20-base-azure.labels.managed_image_resourcegroup_name
 
   # Destination image
   managed_image_name                = local.image_name
