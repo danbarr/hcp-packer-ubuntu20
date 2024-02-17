@@ -4,7 +4,7 @@ A collection of Packer builds for Ubuntu 20.04 (focal) which publish to the HCP 
 
 ## Requirements
 
-[Packer](https://www.packer.io/) v1.7.7 or higher.
+[Packer](https://www.packer.io/) v1.10.1 or higher.
 
 To build all images, AWS and Azure credentials must be available using one of the following mechanisms:
 
@@ -30,20 +30,20 @@ To build only the AWS or Azure images but not both, comment out the provider-spe
 
 ## Terraform integration
 
-Use the "Use as data source" code generator in the HCP Packer UI to generate a Terraform `hcp_packer_image` data source block.
+Use the "Use as data source" code generator in the HCP Packer UI to generate a Terraform `hcp_packer_artifact` data source block.
 
 Example:
 
 ```hcl
-data "hcp_packer_image" "ubuntu20-nginx" {
-  bucket_name     = "ubuntu20-nginx"
-  channel         = "production"
-  cloud_provider  = "aws"
-  region          = "us-east-1"
+data "hcp_packer_artifact" "ubuntu20-nginx" {
+  bucket_name  = "ubuntu20-nginx"
+  channel_name = "production"
+  platform     = "aws"
+  region       = "us-east-1"
 }
 
 # Then replace your existing references with
-# data.hcp_packer_image.ubuntu20-nginx.cloud_image_id
+# data.hcp_packer_artifact.ubuntu20-nginx.external_identifier
 ```
 
 To integrate with **Terraform Cloud continuous validation**, add a lifecycle postcondition block to your instance/VM resource:
@@ -56,7 +56,7 @@ resource "aws_instance" "my_ec2" {
 
   lifecycle {
     postcondition {
-      condition     = self.ami == data.hcp_packer_image.ubuntu20-nginx.cloud_image_id
+      condition     = self.ami == data.hcp_packer_artifact.ubuntu20-nginx.external_identifier
       error_message = "A new source AMI is available in the HCP Packer channel."
     }    
   }
@@ -71,7 +71,7 @@ resource "azurerm_linux_virtual_machine" "my_vm" {
 
   lifecycle {
     postcondition {
-      condition     = self.source_image_id == data.hcp_packer_image.ubuntu20-nginx.cloud_image_id
+      condition     = self.source_image_id == data.hcp_packer_artifact.ubuntu20-nginx.external_identifier
       error_message = "A new source image is available in the HCP Packer channel."
     }    
   }
